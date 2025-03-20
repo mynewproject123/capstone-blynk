@@ -1,16 +1,16 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vitejs.dev/config/
+// Load environment variables from `.env`
 export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
       "/api": {
-        target: "http://backend:5000",  // Proxy to your local backend during development
-        changeOrigin: true,               // Optional, ensures that the host header is set correctly
-        secure: false,                    // Optional, useful if you're running a local server without SSL
+        target: process.env.VITE_BACKEND_URL || "http://localhost:5000", // Default to localhost
+        changeOrigin: true, // Ensure proper host header forwarding
+        secure: false, // Disable SSL verification for local development
       },
     },
   },
- });
+});

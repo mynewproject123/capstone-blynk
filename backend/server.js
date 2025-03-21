@@ -1,10 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import cors from "cors";  // Ensure cors is imported
+import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import mongoose from "mongoose";
+import helmet from "helmet";
 
 // Import routes
 import authRoutes from "./routes/auth.route.js";
@@ -27,12 +28,15 @@ const __dirname = path.dirname(__filename);
 // Enable CORS with fine-tuned options
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost",  // Allow frontend from this URL
-    credentials: true,  // Allow credentials (cookies, etc.)
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],  // Allowed methods
-    allowedHeaders: ["Content-Type", "Authorization"],  // Allowed headers
+    origin: process.env.CLIENT_URL || "http://localhost", // Allow frontend from this URL
+    credentials: true, // Allow credentials (cookies, etc.)
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })
 );
+
+// Use helmet for security headers
+app.use(helmet());
 
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
@@ -54,7 +58,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // MongoDB connection using mongoose
-const uri = process.env.MONGO_URI;  // MONGO_URI is now fetched from .env
+const uri = process.env.MONGO_URI; // MONGO_URI is now fetched from .env
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -67,3 +71,9 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     console.error("❌ Database connection failed:", error);
     process.exit(1); // Exit process if DB connection fails
   });
+
+// Error handling middleware for unhandled errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong!" });
+});

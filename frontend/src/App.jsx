@@ -13,10 +13,10 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import CartPage from "./pages/CartPage";
 import { useCartStore } from "./stores/useCartStore";
 import PurchaseSuccessPage from "./pages/PurchaseSuccessPage";
- import HomePage from "./pages/HomePage";
+import PurchaseCancelPage from "./pages/PurchaseCancelPage";
+import HomePage from "./pages/HomePage";
 import ScrollToTop from "./components/ScrollToTop";
-import CreateProductForm from "./components/CreateProductForm";
- 
+
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
   const { getCartItems } = useCartStore();
@@ -70,12 +70,10 @@ function App() {
             path="/purchase-success"
             element={user ? <PurchaseSuccessPage /> : <Navigate to="/login" />}
           />
-          
-            <Route path="/product" element={user ? <CreateProductForm/>  : <Navigate to="/login" />} />
- 
-            
-             
-
+          <Route
+            path="/purchase-cancel"
+            element={user ? <PurchaseCancelPage /> : <Navigate to="/login" />}
+          />
         </Routes>
       </div>
       <Toaster />

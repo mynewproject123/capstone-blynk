@@ -4,7 +4,7 @@ import { useProductStore } from "../stores/useProductStore";
 import FeaturedProducts from "../components/FeaturedProducts";
 import ProductCard from "../components/ProductCard";
 import { ArrowDown01, ArrowUp10, Search } from "lucide-react";
- 
+
 const categories = [
   { href: "/jeans", name: "Jeans", imageUrl: "/jeans.jpg" },
   { href: "/shirts", name: "Shirts", imageUrl: "/shirt.webp" },
@@ -16,9 +16,8 @@ const categories = [
 ];
 
 const HomePage = () => {
-  const { fetchFeaturedProducts,featuredProducts, products, isLoading, fetchAllProducts } =
+  const { fetchFeaturedProducts, products, isLoading, fetchAllProducts } =
     useProductStore();
-    
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [priceOrder, setPriceOrder] = useState("asc");
@@ -44,12 +43,9 @@ const HomePage = () => {
   const handlePriceOrderChange = () => {
     setPriceOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
-  
   useEffect(() => {
     fetchAllProducts();
   }, [fetchAllProducts]);
-
-
   useEffect(() => {
     fetchFeaturedProducts();
   }, [fetchFeaturedProducts]);
@@ -70,8 +66,8 @@ const HomePage = () => {
           ))}
         </div>
 
-		{!isLoading && featuredProducts.length > 0 && (
-          <FeaturedProducts featuredProducts={featuredProducts} />
+		{!isLoading && products.length > 0 && (
+          <FeaturedProducts featuredProducts={products} />
         )}
 
         <div className="flex items-center justify-between px-1">

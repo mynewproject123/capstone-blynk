@@ -7,19 +7,13 @@ import { useUserStore } from "../stores/useUserStore";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // State to handle errors
 
   const { login, loading } = useUserStore();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError(""); // Reset error before login attempt
-    try {
-      await login(email, password);
-    } catch (error) {
-      // Catch any errors thrown during the login process
-      setError(error.message || "An error occurred during login.");
-    }
+    console.log(email, password);
+    login(email, password);
   };
 
   return (
@@ -30,7 +24,7 @@ const LoginPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h2 className="text-center text-[36px] font-extrabold text-black">
+        <h2 className=" text-center text-[36px] font-extrabold text-black">
           SIGN IN
         </h2>
       </motion.div>
@@ -41,7 +35,7 @@ const LoginPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <div className="relative bg-[#fff] py-8 px-4 shadow-md sm:rounded-xl sm:px-10">
+        <div className="relative  bg-[#fff]  py-8 px-4 shadow-md  sm:rounded-xl sm:px-10">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
@@ -60,7 +54,10 @@ const LoginPage = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full px-3 py-2 pl-10 bg-[#fff] border border-[#c5c5c5] rounded-lg shadow-sm placeholder-gray-600 text-[#000] focus:outline-none focus:ring-black focus:border-black sm:text-sm"
+                  className=" block w-full px-3 py-2 pl-10 bg-[#fff] border border-[#c5c5c5] 
+									rounded-lg shadow-sm
+									 placeholder-gray-600 text-[#000] focus:outline-none focus:ring-black 
+									 focus:border-black sm:text-sm"
                   placeholder="Enter Your Email"
                 />
               </div>
@@ -83,40 +80,46 @@ const LoginPage = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full px-3 py-2 pl-10 bg-[#fff] border border-[#c5c5c5] rounded-lg shadow-sm placeholder-gray-600 text-[#000] focus:outline-none focus:ring-black focus:border-black sm:text-sm"
+                  className=" block w-full px-3 py-2 pl-10 bg-[#fff] border border-[#c5c5c5] 
+									rounded-lg shadow-sm placeholder-gray-600 text-[#000] focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                   placeholder="Enter Your Password"
                 />
               </div>
             </div>
 
-            {error && (
-              <div className="text-red-600 text-sm mt-2">{error}</div> // Display error message if any
-            )}
-
-            <div className="flex justify-end items-end">
-              <button
-                type="submit"
-                className="mt-6 w-full lg:w-[140px] flex justify-center items-center py-[10px] px-4 border border-transparent rounded-lg hover:rounded-full shadow-sm text-sm font-medium text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-150 ease-in-out disabled:opacity-50"
-                disabled={loading}
-              >
-                {loading ? (
-                  <>
-                    <Loader className="mr-2 h-5 w-5 animate-spin" aria-hidden="true" />
-                    Loading
-                  </>
-                ) : (
-                  <>
-                    <LogIn className="mr-2 h-5 w-5" aria-hidden="true" />
-                    Login
-                  </>
-                )}
-              </button>
-            </div>
+          <div className="flex justify-end items-end">
+          	  <button
+	              type="submit"
+	              className="mt-6  w-full lg:w-[140px] flex justify-center items-center  py-[10px] px-4 border border-transparent 
+								rounded-lg hover:rounded-full shadow-sm text-sm font-medium text-white bg-black
+								 focus:outline-none focus:ring-2 focus:ring-offset-2
+								  focus:ring-black transition duration-150 ease-in-out disabled:opacity-50"
+	              disabled={loading}
+	            >
+	              {loading ? (
+	                <>
+	                  <Loader
+	                    className="mr-2 h-5 w-5 animate-spin"
+	                    aria-hidden="true"
+	                  />
+	                  Loading
+	                </>
+	              ) : (
+	                <>
+	                  <LogIn className="mr-2 h-5 w-5" aria-hidden="true" />
+	                  Login
+	                </>
+	              )}
+	            </button>
+          </div>
           </form>
 
-          <p className="mt-4 lg:-mt-8 text-left text-sm text-gray-400">
+          <p className=" mt-4 lg:-mt-8  text-left text-sm text-gray-400">
             Not a member?{" "}
-            <Link to="/signup" className="font-medium text-black hover:text-gray-600">
+            <Link
+              to="/signup"
+              className="font-medium text-black hover:text-gray-600"
+            >
               Sign up now <ArrowRight className="inline h-4 w-4" />
             </Link>
           </p>
@@ -125,5 +128,4 @@ const LoginPage = () => {
     </div>
   );
 };
-
 export default LoginPage;
